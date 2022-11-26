@@ -10,7 +10,7 @@ from PIL import ImageTk, Image
 
 
  
-N_CUES = 4            # default is 50
+N_CUES = 50           # default is 50
 BLANK_DUR_ms = 1000
 CUE_DUR_ms = 125
 
@@ -20,12 +20,12 @@ CUE_DUR_ms = 125
 
 list_cues_str= []
  
-for i in range(3):                 # default is 35
+for i in range(35):                 # default is 35
 
     list_cues_str.append("go")
 
 
-for i in range(1):               # default is 15
+for i in range(15):               # default is 15
 
     list_cues_str.append("no-go")
 
