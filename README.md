@@ -11,7 +11,7 @@ Folders:
   - the odd-ball experimental setting (displays images for an odd-ball task while recording the EEG stream)
   - **outputs:**
       - .csv file containing the EEG stream during the odd-ball paradigm
-      - numpy array of shape ( n_cues, 2 ) containing the type of cue and the location of its occurance in samples ([ ["go", 1000], ["no-go", 2125], ... ]  
+      - numpy array of shape ( n_cues, 2 ) containing the type of cue and the location of its occurance in samples indeces (at the 1000th sample, the "go" cue is displayed): ([ ["go", 1000], ["no-go", 2125], ... ]  
 
 
 **BCI**
