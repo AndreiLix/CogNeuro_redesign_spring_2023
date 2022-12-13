@@ -8,6 +8,9 @@ How to use it:
     - a window will open with the oddball paradigm
     - put your index finger on the Spacebar and look at the screen
     - press the Spacebar key when you see the Blue circle (go cue). Don't do anything when you see the Green circle(no-go cue).
+    
+        - the stuff displayed is the following: white screen for 4 seconds -> cue for 0.5 seconds -> white screen 4 seconds -> cue 0.5 seconds -> ... -> cue 0.5 seconds -> white screen 4 seconds
+    
     - the window will close by itself after 3 minutes or so
 
 - 3 files will be saved in the directory
