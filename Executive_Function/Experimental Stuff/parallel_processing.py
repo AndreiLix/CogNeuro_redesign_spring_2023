@@ -276,11 +276,23 @@ with ThreadPoolExecutor() as executor:                        # works
         # figuring out how many samples were lost in the process, then shifting the annotations by that number of samples
 
     list_lost_samples = [ int(list_seconds_it_takes_to_run_display_script[i] * 1000 // 4) for i in range(len(list_seconds_it_takes_to_run_display_script)) ]
-    clean_indexes_cue = np.sum( [indexes_cue, list_lost_samples], axis = 0 )
+    
+    clean_indexes_cue = indexes_cue
+
+    sum_lost_samples = 0
+
+    for i in range(len(list_lost_samples)):
+
+        sum_lost_samples += list_lost_samples[i]
+        clean_indexes_cue[i] += sum_lost_samples
+
     clean_annotations_aray = np.stack( [ list_cues_str, clean_indexes_cue ], axis = 1)
     np.save( file = "clean_annotations_array_" + str( time.strftime("%H") ) + "h_" + str( time.strftime("%M") ) + "m_" + str( time.strftime("%S") ) + "s" + ".npy", arr = clean_annotations_aray )
 
+
+
     # -----------------------
+
 
     
     np.save( file = "dirty_annotations_array_" + str( time.strftime("%H") ) + "h_" + str( time.strftime("%M") ) + "m_" + str( time.strftime("%S") ) + "s" + ".npy", arr = annotations_aray )
