@@ -1,1 +1,14 @@
+1) Download the "Images_needed" zip file and thew "odd_emotions_py_script.py" script on your laptop;
+2) On your desktop, create a folder called "emotions_pract";
+3) In this folder, place all the content of the zip file as well as the "odd_emotions_py_script.py" file;
+4) Open your Terminal;
+5) Change the working direcotry to the folder you created >> "cd Desktop/emotions_pract";
+6) After having changed the directory, typoe the following to run the script >> " sudo python3 odd_emotions_py_script.py";
+7) You might be prompted to input your laptop password;
+8) Once that is done, the tkinter board should appear and you should be presented with emotional /neutral faces quite fast (each face lasts 50 ms) followed by a mask;
+9) Once the mask is presented, you should press either "e" if the image you just saw was an emotional face, or "n" if it looked neutral.
+10) This will repeat for ~ 35 stimuli of faces.
+11) After all the face images are presented, the program should shut automatically and it should redirect you to the terminal, where you should see the avarage reaction time for neutral and emotional faces.
+12) That's it!
+13) It might be that you have to install some modules "! pip install ..." the first time you run the script, but the program will let you know if that's the case.
 
