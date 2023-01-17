@@ -1,6 +1,8 @@
 #This stuff works! add the display and strean amd you're done!
 
 
+import threading
+
 import concurrent.futures
 from threading import Event
 import time
@@ -19,7 +21,7 @@ from PIL import ImageTk, Image
 start = time.perf_counter()
 
 
-def collect_stream(event_display_ended):
+def collect_stream(event):
 
     print("collecting stream...")
          
@@ -47,7 +49,7 @@ def collect_stream(event_display_ended):
             i = i + 1
 
         
-        if event_display_ended.is_set():
+        if event.is_set():
 
             data_df = pd.DataFrame.from_dict(data_dict)
             data_df.to_csv("EEG_CleanStream_" + str( time.strftime("%H") ) + "h_" + str( time.strftime("%M") ) + "m_" + str( time.strftime("%S") ) + "s" + ".csv", index = False)
@@ -153,7 +155,7 @@ my_canvas.pack(fill = "both", expand = True)
 
 
 
-event = Event()
+event = threading.Event()
 
 with ThreadPoolExecutor() as executor:                        # works
 
