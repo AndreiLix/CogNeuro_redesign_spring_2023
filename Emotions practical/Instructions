@@ -10,5 +10,5 @@ Once the countdown ends, you should be presented with emotional /neutral faces q
 Once the mask is presented, you should press either "e" if the image you just saw was an emotional face, or "n" if it looked neutral.
 This will repeat for ~ 35 stimuli of faces.
 After all the face images are presented, the program should shut down automatically and it should redirect you to the terminal, where you should see the average reaction time for neutral and emotional faces.
-hat's it!
+That's it!
 PS: It might be that you have to install some modules "! pip install ..." (or the corresponding command for your OS) the first time you run the script, but the program should let you know if that's the case.
