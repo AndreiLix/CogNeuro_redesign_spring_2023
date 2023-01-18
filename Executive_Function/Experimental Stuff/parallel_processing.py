@@ -283,10 +283,13 @@ with ThreadPoolExecutor() as executor:                        # works
 
     sum_lost_samples = 0
 
-    for i in range(len(list_lost_samples)):
+    i = 0
 
-        sum_lost_samples += list_lost_samples[i]
+    while i < len(clean_indexes_cue):                     # quick and dirty way -> adjust later to also adjust the last blank cue
+
+        sum_lost_samples += list_lost_samples[ 2 * i ] + list_lost_samples[2 * i + 1]
         clean_indexes_cue[i] += sum_lost_samples
+        i += 1
 
     clean_annotations_aray = np.stack( [ list_cues_str, clean_indexes_cue ], axis = 1)
     np.save( file = "clean_annotations_array_" + str( time.strftime("%H") ) + "h_" + str( time.strftime("%M") ) + "m_" + str( time.strftime("%S") ) + "s" + ".npy", arr = clean_annotations_aray )
