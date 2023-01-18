@@ -9,7 +9,7 @@ from PIL import ImageTk, Image
 
 
  
-N_CUES = 5         # default is 74
+N_CUES = 5         # default is 144
 
 
 
@@ -25,12 +25,12 @@ CUE_DUR_ms = 312
 
 list_cues_str= []
  
-for i in range(2):                 # default is 37
+for i in range(2):                 # default is 72
 
     list_cues_str.append("down")
 
 
-for i in range(3):               # default is 37
+for i in range(3):               # default is 72
 
     list_cues_str.append("right")
 
