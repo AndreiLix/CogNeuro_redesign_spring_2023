@@ -1,6 +1,3 @@
-#This stuff works! add the display and strean amd you're done!
-
-
 import threading
 
 import concurrent.futures
@@ -24,8 +21,8 @@ start = time.perf_counter()
 
  
 N_CUES = 50           # default is 50
-BLANK_DUR_ms = 1000
-CUE_DUR_ms = 125
+BLANK_DUR = 1000      # duration in samples: with a sampling frequency of 250 Hz, we have 250 samples per second. Here the blank screen is displayed for 1000 samples, meaning 4 seconds;
+CUE_DUR_ms = 125      # duration in samples
 
 # ------------------------------------ makng a list of random cues (50 in total: 35 go, 15 no-go) -----------------------------
 
