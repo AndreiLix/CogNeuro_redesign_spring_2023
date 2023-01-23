@@ -21,56 +21,6 @@ from PIL import ImageTk, Image
 start = time.perf_counter()
 
 
-def collect_stream(event):
-
-    print("collecting stream...")
-         
-    finished = False
-
-    streams = resolve_stream()
-    inlet = StreamInlet(streams[0])
-
-    # initialize the colomns of your data and your dictionary to capture the data.
-    columns=['Time','FZ', 'C3', 'CZ', 'C4', 'PZ', 'PO7', 'OZ', 'PO8','AccX','AccY','AccZ','Gyro1','Gyro2','Gyro3', 'Battery','Counter','Validation']
-    data_dict = dict((k, []) for k in columns)
-
-
-    while True:   # if we collected all the samples we want, we stop
-
-        # get the streamed data. Columns of sample are equal to the columns variable, only the first element being timestamp
-        # concatenate timestamp and data in 1 list
-        data, timestamp = inlet.pull_sample()
-        all_data = [timestamp] + data
-
-        # updating data dictionary with newly transmitted samples   
-        i = 0
-        for key in list(data_dict.keys()):            # this loop causes delay -> maybe think of a better option
-            data_dict[key].append(all_data[i])
-            i = i + 1
-
-        
-        if event.is_set():
-
-            data_df = pd.DataFrame.from_dict(data_dict)
-            data_df.to_csv("EEG_CleanStream_" + str( time.strftime("%H") ) + "h_" + str( time.strftime("%M") ) + "m_" + str( time.strftime("%S") ) + "s" + ".csv", index = False)
-            
-            return "stream collection ended"
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
  
 N_CUES = 50           # default is 50
@@ -124,8 +74,10 @@ annotations_aray = np.stack( [ list_cues_str, indexes_cue ], axis = 1)
 
 
 
-
 #----------------------------------- image related stuff -----------------------------------
+
+
+#TODO: change images based on the screen resolution
 
 root = Tk()
 
@@ -141,23 +93,64 @@ label_green = Label( image = im_green )
 
 
 
-my_canvas = Canvas( root, width = 1920, height = 1080 )        # change this based on display resolution
+my_canvas = Canvas( root, width = 1920, height = 1080 )        #TODO: change this based on screen resolution
 my_canvas.pack(fill = "both", expand = True)
 
 
-#------------------------------------------------------------------------------------------------
+
+
+# ----------------------------function for collecting a continuous stream in parallel to displaying the images---------------------------
+
+
+def collect_stream(event):
+
+    print("collecting stream...")
+         
+    finished = False
+
+    streams = resolve_stream()
+    inlet = StreamInlet(streams[0])
+
+    # initialize the colomns of your data and your dictionary to capture the data.
+    columns=['Time','FZ', 'C3', 'CZ', 'C4', 'PZ', 'PO7', 'OZ', 'PO8','AccX','AccY','AccZ','Gyro1','Gyro2','Gyro3', 'Battery','Counter','Validation']
+    data_dict = dict((k, []) for k in columns)
+
+
+    while True:   # if we collected all the samples we want, we stop
+
+        # get the streamed data. Columns of sample are equal to the columns variable, only the first element being timestamp
+        # concatenate timestamp and data in 1 list
+        data, timestamp = inlet.pull_sample()
+        all_data = [timestamp] + data
+
+        # updating data dictionary with newly transmitted samples   
+        i = 0
+        for key in list(data_dict.keys()):        
+            data_dict[key].append(all_data[i])
+            i = i + 1
+
+        
+        if event.is_set():
+
+            data_df = pd.DataFrame.from_dict(data_dict)
+            data_df.to_csv("EEG_CleanStream_" + str( time.strftime("%H") ) + "h_" + str( time.strftime("%M") ) + "m_" + str( time.strftime("%S") ) + "s" + ".csv", index = False)
+            
+            return "stream collection ended"
 
 
 
 
 
+#--------------------------------------------- Displaying cues based on the samples collected -----------------------------------
 
 
+# The signal collected here misses between 3 and and 15 samples per cue. This is because of the delay in processing caused by initiating the display of each cue.
+# This motivates the collection of a continuous stream and moving the annotation indexes based on how many samples have been lost.
 
 
 event = threading.Event()
 
-with ThreadPoolExecutor() as executor:                        # works
+with ThreadPoolExecutor() as executor:                    
 
     f1 = executor.submit(collect_stream, event)
 
@@ -171,7 +164,6 @@ with ThreadPoolExecutor() as executor:                        # works
     data_dict = dict((k, []) for k in columns)
 
 
-
     i_sample = 0
     i_cue = 0
     time_start = time.time()
@@ -179,7 +171,7 @@ with ThreadPoolExecutor() as executor:                        # works
     list_seconds_it_takes_to_run_display_script = []
 
 
-    while True:   # if we collected all the samples we want, we stop
+    while True:
 
         # get the streamed data. Columns of sample are equal to the columns variable, only the first element being timestamp
         # concatenate timestamp and data in 1 list
@@ -188,12 +180,10 @@ with ThreadPoolExecutor() as executor:                        # works
 
         # updating data dictionary with newly transmitted samples   
         i = 0
-        for bababowe in list(data_dict.keys()):            # this loop causes delay -> maybe think of a better option
-            data_dict[bababowe].append(all_data[i])
+        for key in list(data_dict.keys()):           
+            data_dict[key].append(all_data[i])
             i = i + 1
 
-
-        # ------------------ doing the display ----------------
 
         if i_sample in indexes_blank:
 
@@ -235,14 +225,6 @@ with ThreadPoolExecutor() as executor:                        # works
 
 
             i_cue += 1
-
-
-
-        # -------------------------------------------------------
-
-        #   # data is collected at 250 Hz. Let's stop data collection after 10 seconds. Meaning we stop when we collected 250*10 samples.
-        #   if len(data_dict['Time']) >= 250*10:
-        #      finished = True
             
 
         if i_sample == N_CUES * (BLANK_DUR_ms + CUE_DUR_ms) + BLANK_DUR_ms:
@@ -259,9 +241,9 @@ with ThreadPoolExecutor() as executor:                        # works
 
 
 
+    
 
-
-
+ # -------------------------------- Wrapping things up: adjusting the cues for the continuous stream, saving the EEG signal and annotations--------------------------
 
 
     time_end = time.time()
@@ -272,7 +254,7 @@ with ThreadPoolExecutor() as executor:                        # works
 
     np.save( file = "dirty_annotations_array_" + str( time.strftime("%H") ) + "h_" + str( time.strftime("%M") ) + "m_" + str( time.strftime("%S") ) + "s" + ".npy", arr = annotations_aray )
 
-
+    
     # making clean annotations
 
         # figuring out how many samples were lost in the process, then shifting the annotations by that number of samples
@@ -285,7 +267,10 @@ with ThreadPoolExecutor() as executor:                        # works
 
     i = 0
 
-    while i < len(clean_indexes_cue):                     # quick and dirty way -> adjust later to also adjust the last blank cue
+        # moving the annotations for the continuous stream by adding for each cue the samples lost in displaying the white screen
+        # and the samples lost in displaying the cue
+        
+    while i < len(clean_indexes_cue):                        
 
         sum_lost_samples += list_lost_samples[ 2 * i ] + list_lost_samples[2 * i + 1]
         clean_indexes_cue[i] += sum_lost_samples
@@ -296,9 +281,6 @@ with ThreadPoolExecutor() as executor:                        # works
 
 
 
-    # -----------------------
-
-
     
     np.save( file = "dirty_annotations_array_" + str( time.strftime("%H") ) + "h_" + str( time.strftime("%M") ) + "m_" + str( time.strftime("%S") ) + "s" + ".npy", arr = annotations_aray )
 
@@ -307,20 +289,3 @@ with ThreadPoolExecutor() as executor:                        # works
     with open(time_file, 'w') as f:
         f.write('seconds it took to collect data =' + str( seconds_it_took_to_collect_data) + "\n" + "list of time it takes to display one cue:" + str( list_seconds_it_takes_to_run_display_script ) )
 
-
-
-'''
-
-after we have EEG_clean_signal and EEG_missing_samples and time_txt,
-
-we can move the annotations by a number of samples deteremined by how 
-much it took for each cue to be displayed
--> then use EEG_clean_signal as our EED samples for analysis
-
-MAKE SURE EEG_clean and EEG_missing_samples have the same shape, so you know they're collecting the same thing
-
-
-
-
-
-'''
