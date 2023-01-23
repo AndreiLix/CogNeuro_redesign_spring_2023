@@ -3,7 +3,7 @@ How to use it:
 - download the repo, unzip it, use it as working directory
 - go to integration_oddball_and_EEGstream.py and change the paths of rhe images from "image related stuff" to the path of where your images are located
 
-- run integration_oddball_and_EEGstream.py
+- run run_experiment.py
 
     - a window will open with the oddball paradigm
     - put your index finger on the Spacebar and look at the screen
