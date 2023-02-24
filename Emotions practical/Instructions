@@ -1,14 +1,16 @@
 Download the "Images_needed" zip file and the "odd_emotions_py_script.py" script on your laptop;
 On your desktop, create a folder called "emotions_pract";
-In this folder, place all the content of the zip file as well as the "odd_emotions_py_script.py" file;
+In this folder, place all the content of the unzipped file as well as the "odd_emotions_py_script.py" file;
 Open your Terminal;
 Change the working directory to the folder you created >> "cd Desktop/emotions_pract/";
-After having changed the directory, type the following to run the script >> "sudo python3 odd_emotions_py_script.py" (or the corresponding command for your OS);
+After having changed the directory, type the following to run the script >> "sudo python3 odd_emotions_py_script.py" (for macOS) / "python odd_emotions_py_script.py" (for Windows);
 You might be prompted to input your laptop password;
-Once that is done, the tkinter board should appear and on the top-left corner a 5 seconds countdown should appear (trying to figure out how to centre it)
-Once the countdown ends, you should be presented with emotional /neutral faces quite fast (each face lasts 50 ms) followed by a mask;
-Once the mask is presented, you should press either "e" if the image you just saw was an emotional face, or "n" if it looked neutral.
-This will repeat for ~ 35 stimuli of faces.
-After all the face images are presented, the program should shut down automatically and it should redirect you to the terminal, where you should see the average reaction time for neutral and emotional faces.
+Once that is done, the tkinter board should appear as well as s 5 seconds countdown;
+Once the countdown ends, you should be presented with emotional /neutral faces quite fast (each face lasts either 50 or 200 ms), all followed by a mask;
+Once the mask is presented, you should press on your keyboard either "E" if the image you just saw was an emotional face, or "N" if it looked neutral.
+This will repeat for 36 faces.
+After all the face images are presented, the program will shut down automatically and it will redirect you to the terminal, where you should see the average reaction times for neutral and emotional faces, for both the 50 ms and 200 ms trials.
+At this point, go back to your emotions_pract folder and there you will find a file called "csv_file"
+Upload this file on your jupyter enviroment together with the stat_analysis notebook and run your analysis.
 That's it!
 PS: It might be that you have to install some modules "! pip install ..." (or the corresponding command for your OS) the first time you run the script, but the program should let you know if that's the case.
