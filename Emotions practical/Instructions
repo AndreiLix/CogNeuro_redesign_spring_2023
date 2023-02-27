@@ -7,10 +7,10 @@ After having changed the directory, type the following to run the script >> "sud
 You might be prompted to input your laptop password;
 Once that is done, the tkinter board should appear as well as s 5 seconds countdown;
 Once the countdown ends, you should be presented with emotional /neutral faces quite fast (each face lasts either 50 or 200 ms), all followed by a mask;
-Once the mask is presented, you should press on your keyboard either "E" if the image you just saw was an emotional face, or "N" if it looked neutral.
-This will repeat for 36 faces.
-After all the face images are presented, the program will shut down automatically and it will redirect you to the terminal, where you should see the average reaction times for neutral and emotional faces, for both the 50 ms and 200 ms trials.
-At this point, go back to your emotions_pract folder and there you will find a file called "csv_file"
-Upload this file on your jupyter enviroment together with the stat_analysis notebook and run your analysis.
-That's it!
-PS: It might be that you have to install some modules "! pip install ..." (or the corresponding command for your OS) the first time you run the script, but the program should let you know if that's the case.
+Once the mask is presented, you should press on your keyboard either "E" if the image you just saw was an emotional face, or "N" if it looked neutral;
+This will repeat for 36 faces;
+After all the face images are presented, the program will shut down automatically and it will redirect you to the terminal, where you should see the average reaction times for neutral and emotional faces, for both the 50 ms and 200 ms trials;
+At this point, go back to your emotions_pract folder and there you will find a file called "csv_file";
+Upload this file on your jupyter enviroment together with the stat_analysis notebook and run your analysis;
+That's it! ;
+PS: It might be that you have to install some modules "! pip install ..." (or the corresponding command for your OS) the first time you run the script, but the program should let you know if that's the case;
