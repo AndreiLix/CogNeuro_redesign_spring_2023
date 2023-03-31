@@ -195,9 +195,7 @@ def show_mask(stimuli, time_sleep, i):
                     writer = csv.writer(f)
                     # write the row to the csv file
                     writer.writerow(row)
-                break
-            
-            
+                break         
 
 def countdown(count):
     # change text in label        
